@@ -102,3 +102,13 @@ gson: 2.10.1
 ### com.zj.zs.utils.exception
 
 拦截器: 主要是对全局的一些异常进行拦截和处理。
+## 项目初始化
+```bash
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+# 添加远程仓库
+git remote add origin git@github.com:zhoujun134/zjBoot.git
+git push -u origin main
+```
