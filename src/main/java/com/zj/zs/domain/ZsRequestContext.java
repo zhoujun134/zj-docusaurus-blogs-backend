@@ -4,6 +4,8 @@ import com.zj.zs.domain.dto.UserInfoDto;
 
 import java.util.Objects;
 
+import static com.zj.zs.constants.GlobalConstants.DEFAULT_USER_NAME;
+
 public class ZsRequestContext {
 
     private static final ThreadLocal<UserInfoDto> curUserContext = new ThreadLocal<>();
@@ -22,8 +24,11 @@ public class ZsRequestContext {
     public static UserInfoDto getCurContext() {
         UserInfoDto userInfoDto = curUserContext.get();
         if (Objects.isNull(userInfoDto)) {
-            return new UserInfoDto();
+            return getAnonymousUser();
         }
         return userInfoDto;
+    }
+    public static UserInfoDto getAnonymousUser() {
+        return new UserInfoDto(DEFAULT_USER_NAME, 1L);
     }
 }

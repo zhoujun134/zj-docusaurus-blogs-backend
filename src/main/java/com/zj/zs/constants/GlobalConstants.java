@@ -8,5 +8,5 @@ package com.zj.zs.constants;
  * @Version v1.0
  **/
 public class GlobalConstants {
-    public final static String DEFAULT_USER_NAME = "zs-boot";
+    public final static String DEFAULT_USER_NAME = "zs-boot-default-user";
 }

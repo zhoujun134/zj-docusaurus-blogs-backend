@@ -1,18 +1,33 @@
 package com.zj.zs.utils.exception;
 
 /**
- * @ClassName BusinessException
- * @Author zj
- * @Description
- * @Date 2024/3/10 15:34
- * @Version v1.0
- **/
-public class BusinessException {
+ * @author junzhou
+ * @date 2022/9/18 10:20
+ * @since 1.8
+ */
+public class BusinessException extends RuntimeException {
+    private String code = "-1";
+    private final Object result;
 
-    public static void exception(boolean flag, String message) {
-        if (!flag) {
-            return;
-        }
-        throw new RuntimeException(message);
+    public BusinessException(String code, Object result) {
+        this.code = code;
+        this.result = result;
+    }
+
+    public BusinessException(String message, String code, Object result) {
+        super(message);
+        this.code = code;
+        this.result = result;
+    }
+
+    public BusinessException(ResultCode resultCode) {
+        super(resultCode.getMessage());
+        this.code = resultCode.getCode();
+        this.result = resultCode;
+    }
+
+    public BusinessException(String message) {
+        super(message);
+        this.result = message;
     }
 }

@@ -40,7 +40,7 @@ public class LoginFilter implements Filter {
             ZsRequestContext.put(userInfoDto);
             log.info("LoginFilter#####doFilter: insert userInfo userName={}", userName);
         } catch (Exception e) {
-            log.warn("LoginFilter#####doFilter: 未获取到用户信息！", e);
+            log.warn("LoginFilter#####doFilter: 未获取到用户信息！");
             isException = true;
         }
         if (!isException) {

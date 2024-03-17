@@ -9,7 +9,8 @@ import com.zj.zs.domain.dto.request.LoginUserReqDTO;
 import com.zj.zs.domain.dto.request.RegisterUserInfoReqDTO;
 import com.zj.zs.domain.entity.UserDO;
 import com.zj.zs.service.UserService;
-import com.zj.zs.utils.exception.BusinessException;
+import com.zj.zs.utils.exception.ResultCode;
+import com.zj.zs.utils.exception.ValidateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,8 +36,8 @@ public class UserServiceImpl implements UserService {
     public SaTokenInfo login(LoginUserReqDTO request) {
         final String passwordInfo = SaSecureUtil.aesEncrypt(aesKey, request.getPassword());
         final UserDO userInfo = userManager.getByUsername(request.getUsername());
-        BusinessException.exception(Objects.isNull(userInfo)
-                || !StringUtils.equals(userInfo.getPassword(), passwordInfo), "登录异常，用户名或密码错误！");
+        ValidateUtil.exceptionByTrue(Objects.isNull(userInfo)
+                || !StringUtils.equals(userInfo.getPassword(), passwordInfo), ResultCode.LOGIN_USER_INFO_ERROR);
         StpUtil.login(userInfo.getUsername());
         return StpUtil.getTokenInfo();
     }
@@ -54,7 +55,8 @@ public class UserServiceImpl implements UserService {
     public Boolean register(RegisterUserInfoReqDTO request) {
         final UserDO userDO = userConverter.toUserDO(request, aesKey);
         final UserDO existUser = userManager.getByUsernameOrEmail(userDO.getUsername(), userDO.getEmail());
-        BusinessException.exception(Objects.nonNull(existUser), "用户名或邮箱已经存在了，不允许再次创建，请更换后重试。");
+        ValidateUtil.exceptionByTrue(Objects.nonNull(existUser),
+                ResultCode.REGISTER_EMAIL_INFO_EXISTED);
         return userManager.save(userDO);
     }
 }

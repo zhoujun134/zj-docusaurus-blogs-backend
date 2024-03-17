@@ -1,12 +1,14 @@
 # 个人使用的 spring boot 脚手架
 
 ## 项目描述
+
 该项目为开发的脚手架。其中主要包含基础的结构定义
 
-项目 swagger 地址 http://localhost:8080/zs/swagger-ui/index.html 
+项目 swagger 地址 http://localhost:8080/zs/swagger-ui/index.html
+
 ```b
 .
-├── README.md
+├── README.mdcd
 ├── pom.xml                                                                                                   # maven 依赖文件
 └── src
     ├── main
@@ -70,6 +72,7 @@
 ```
 
 ## 版本说明
+
 ```
 jdk: 17
 spring-boot: 2.7.3
@@ -82,3 +85,20 @@ sa-token-spring-boot-starter: 1.37.0
 gson: 2.10.1
 ```
 
+
+
+
+
+## 项目文件说明
+
+### com.zj.zs.config.sso.ZsWebMvcConfigurer
+
+该配置中主要涉及 sso 的配置，对应哪些接口需要进行 sso 拦截。sso支持。
+
+### com.zj.zs.config.filter.LoginFilter
+
+这个 filter 主要是将对应的登录信息获取出来放在 `com.zj.zs.domain.ZsRequestContext`中，方便后面在相关请求中获取对应的用户信息。
+
+### com.zj.zs.utils.exception
+
+拦截器: 主要是对全局的一些异常进行拦截和处理。
