@@ -1,11 +1,11 @@
 package com.zj.zs.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zj.zs.domain.entity.UserDO;
+import com.zj.zs.domain.entity.ZsUserDO;
 
-public interface UserManager extends IService<UserDO> {
+public interface UserManager extends IService<ZsUserDO> {
 
-    UserDO getByUsername(String userName);
+    ZsUserDO getByUsername(String userName);
 
-    UserDO getByUsernameOrEmail(String username, String email);
+    ZsUserDO getByUsernameOrEmail(String username, String email);
 }

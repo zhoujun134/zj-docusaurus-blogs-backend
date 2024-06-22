@@ -1,9 +1,40 @@
+server:
+  servlet:
+    context-path: /zs
 spring:
   datasource:
     username: root
     password: woshiroot123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/zj_blog?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/zj_blog?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 30MB
+      # 文件临时保存的目录
+      location: /tmp/fileStore
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+
+file:
+  upload:
+    realDir: /static/fileStore
+  # 访问静态资源的域名
+  static:
+    domain:  http://localhost:8080/zs
+openapi:
+  nvidia:
+    secretKey: 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
+
+
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:
   # token 名称（同时也是 cookie 名称）
@@ -27,6 +58,28 @@ zs:
       key: zs-boot
     sso:
       paths: /api/admin/**,/api/manager/**
-server:
-  servlet:
-    context-path: /zs
+
+# mybatis配置信息
+mybatis-plus:
+  # 打印SQL语句
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 全局配置
+  global-config:
+    db_config:
+      # 全局逻辑删除的字段名
+      logic-delete-field: deleted
+      # 逻辑已删除值
+      logic-delete-value: 1
+      # 逻辑未删除值
+      logic-not-delete-value: 0
+docusaurus:
+  dir:
+    path: /root/zjBlog/zj-docusaurus-blogs
+  nginx:
+    site:
+      dir:
+        path: /root/zjBlog/zj-docusaurus-blogs/build
+      history:
+        dir:
+          path: /root/zjBlog/zj-docusaurus-blogs/history

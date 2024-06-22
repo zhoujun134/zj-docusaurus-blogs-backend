@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
  * @Version v1.0
  **/
 @Data
-public class LoginUserReqDTO {
+public class LoginUserReqDto {
 
     @NotBlank(message = "用户名不能为空！")
     private String username;

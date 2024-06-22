@@ -28,6 +28,8 @@ public enum ResultCode {
      * 当前用户未登录!
      */
     USER_NOT_LOGIN("1", "当前用户未登录! "),
+
+    USER_NOT_PERMIT_VISITED("1", "您已被禁止访问！请邮件联系管理员 1161386101@qq.com 进行解绑！"),
     /**
      * 账号类型异常
      */

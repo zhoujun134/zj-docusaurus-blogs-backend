@@ -1,7 +1,7 @@
 package com.zj.zs.converter;
 
-import com.zj.zs.domain.dto.request.RegisterUserInfoReqDTO;
-import com.zj.zs.domain.entity.UserDO;
+import com.zj.zs.domain.dto.request.RegisterUserInfoReqDto;
+import com.zj.zs.domain.entity.ZsUserDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -21,5 +21,5 @@ public interface UserConverter {
     @Mapping(target = "password", expression = "java(cn.dev33.satoken.secure.SaSecureUtil.aesEncrypt(aesKey, request.getPassword()))")
     @Mapping(source = "request.email", target = "email")
     @Mapping(source = "request.description", target = "description")
-    UserDO toUserDO(RegisterUserInfoReqDTO request, String aesKey);
+    ZsUserDO toUserDO(RegisterUserInfoReqDto request, String aesKey);
 }

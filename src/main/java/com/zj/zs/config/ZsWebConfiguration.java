@@ -1,12 +1,11 @@
 package com.zj.zs.config;
 
-import com.zj.zs.config.filter.LoginFilter;
-import com.zj.zs.dao.UserManager;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.zj.zs.config.filter.request.BackendHttpServletRequestFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
 import java.util.Collections;
 
 /**
@@ -20,17 +19,23 @@ import java.util.Collections;
 @Configuration
 public class ZsWebConfiguration {
 
-    @Resource
-    private UserManager userManager;
-
+    @Bean
+    public PaginationInterceptor paginationInterceptor() {
+        return new PaginationInterceptor();
+    }
 
     @Bean
-    public FilterRegistrationBean<LoginFilter> filterRegistrationBean() {
-        FilterRegistrationBean<LoginFilter> bean = new FilterRegistrationBean<>();
-        bean.setFilter(new LoginFilter(userManager));	// 这里可以使用 new，也可以在 Filter 上加 @Component 注入进来
+    public FilterRegistrationBean<BackendHttpServletRequestFilter> filterRegistrationBean() {
+        FilterRegistrationBean<BackendHttpServletRequestFilter> bean = new FilterRegistrationBean<>();
+        bean.setFilter(new BackendHttpServletRequestFilter());  // 这里可以使用 new，也可以在 Filter 上加 @Component 注入进来
         bean.setUrlPatterns(Collections.singleton("/*"));
-        bean.setName("loginFilter");
-        bean.setOrder(1);	// 值越小，优先级越高
+        bean.setName("BackendHttpServletRequestFilter");
+        bean.setOrder(-1);  // 值越小，优先级越高
         return bean;
+    }
+
+    @Bean
+    public BackendHttpServletRequestFilter backendHttpServletRequestFilter() {
+        return new BackendHttpServletRequestFilter();
     }
 }

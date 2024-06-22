@@ -5,9 +5,9 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.zj.zs.converter.UserConverter;
 import com.zj.zs.dao.UserManager;
-import com.zj.zs.domain.dto.request.LoginUserReqDTO;
-import com.zj.zs.domain.dto.request.RegisterUserInfoReqDTO;
-import com.zj.zs.domain.entity.UserDO;
+import com.zj.zs.domain.dto.request.LoginUserReqDto;
+import com.zj.zs.domain.dto.request.RegisterUserInfoReqDto;
+import com.zj.zs.domain.entity.ZsUserDO;
 import com.zj.zs.service.UserService;
 import com.zj.zs.utils.exception.ResultCode;
 import com.zj.zs.utils.exception.ValidateUtil;
@@ -33,9 +33,9 @@ public class UserServiceImpl implements UserService {
     private String aesKey;
 
     @Override
-    public SaTokenInfo login(LoginUserReqDTO request) {
+    public SaTokenInfo login(LoginUserReqDto request) {
         final String passwordInfo = SaSecureUtil.aesEncrypt(aesKey, request.getPassword());
-        final UserDO userInfo = userManager.getByUsername(request.getUsername());
+        final ZsUserDO userInfo = userManager.getByUsername(request.getUsername());
         ValidateUtil.exceptionByTrue(Objects.isNull(userInfo)
                 || !StringUtils.equals(userInfo.getPassword(), passwordInfo), ResultCode.LOGIN_USER_INFO_ERROR);
         StpUtil.login(userInfo.getUsername());
@@ -52,11 +52,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean register(RegisterUserInfoReqDTO request) {
-        final UserDO userDO = userConverter.toUserDO(request, aesKey);
-        final UserDO existUser = userManager.getByUsernameOrEmail(userDO.getUsername(), userDO.getEmail());
+    public Boolean register(RegisterUserInfoReqDto request) {
+        final ZsUserDO zsUserDO = userConverter.toUserDO(request, aesKey);
+        final ZsUserDO existUser = userManager.getByUsernameOrEmail(zsUserDO.getUsername(), zsUserDO.getEmail());
         ValidateUtil.exceptionByTrue(Objects.nonNull(existUser),
                 ResultCode.REGISTER_EMAIL_INFO_EXISTED);
-        return userManager.save(userDO);
+        return userManager.save(zsUserDO);
     }
 }

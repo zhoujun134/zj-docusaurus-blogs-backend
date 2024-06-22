@@ -1,15 +1,15 @@
 package com.zj.zs.service;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
-import com.zj.zs.domain.dto.request.LoginUserReqDTO;
-import com.zj.zs.domain.dto.request.RegisterUserInfoReqDTO;
+import com.zj.zs.domain.dto.request.LoginUserReqDto;
+import com.zj.zs.domain.dto.request.RegisterUserInfoReqDto;
 
 public interface UserService {
 
-    SaTokenInfo login(LoginUserReqDTO request);
+    SaTokenInfo login(LoginUserReqDto request);
 
     void logout();
 
-    Boolean register(RegisterUserInfoReqDTO request);
+    Boolean register(RegisterUserInfoReqDto request);
 
 }
