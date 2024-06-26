@@ -3,6 +3,7 @@ package com.zj.zs.service.admin;
 import com.zj.zs.domain.dto.article.ArticleDto;
 import com.zj.zs.domain.dto.article.CategoryDto;
 import com.zj.zs.domain.dto.article.TagDto;
+import com.zj.zs.domain.dto.docusaurus.DocusaurusPublishShellConfigDto;
 import com.zj.zs.domain.dto.request.admin.AddArticleReqDto;
 
 import java.util.List;
@@ -17,7 +18,8 @@ import java.util.List;
 public interface ZsAdminArticleManagerService {
 
     ArticleDto addArticle(AddArticleReqDto request);
-
     boolean addNewCategoryForNotExist(List<CategoryDto> categoryDto);
     boolean addTag(List<TagDto> tagDto);
+
+    boolean setDocusaurusConfig(DocusaurusPublishShellConfigDto request);
 }

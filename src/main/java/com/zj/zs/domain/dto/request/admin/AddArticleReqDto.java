@@ -51,4 +51,6 @@ public class AddArticleReqDto {
     private List<String> tagIdList = Lists.newArrayList();
 
     private DocusaurusFileTypeEnum fileType =  DocusaurusFileTypeEnum.BLOG;
+
+    private String filePath =  "";
 }

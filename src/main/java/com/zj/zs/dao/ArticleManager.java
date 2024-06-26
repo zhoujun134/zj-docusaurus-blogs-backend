@@ -3,6 +3,7 @@ package com.zj.zs.dao;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zj.zs.domain.dto.article.ArchivistDto;
+import com.zj.zs.domain.dto.article.ArticleDto;
 import com.zj.zs.domain.dto.request.ArticleReqDto;
 import com.zj.zs.domain.entity.ZsArticleDO;
 
@@ -22,4 +23,6 @@ public interface ArticleManager extends IService<ZsArticleDO> {
     ZsArticleDO getByArticleId(String articleId);
 
     List<ArchivistDto> archivist();
+
+    void updateByArticleId(ArticleDto articleDto);
 }

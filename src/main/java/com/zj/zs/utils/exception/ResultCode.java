@@ -98,6 +98,7 @@ public enum ResultCode {
      */
     FILE_NOT_FOUND("2000", "%s 文件不存在！"),
 
+    DOCUSAURUS_NOT_CONFIG("2001", "docusaurus 配置文件未配置！"),
 
     ;
 

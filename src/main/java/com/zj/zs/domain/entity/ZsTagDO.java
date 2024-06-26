@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @TableName("zs_tag")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ZsTagDO extends BaseDBDO {
+public class ZsTagDO extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;

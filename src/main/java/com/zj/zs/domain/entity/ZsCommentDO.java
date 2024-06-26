@@ -26,7 +26,7 @@ import java.util.List;
 @TableName("zs_comment")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ZsCommentDO extends BaseDBDO {
+public class ZsCommentDO extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;

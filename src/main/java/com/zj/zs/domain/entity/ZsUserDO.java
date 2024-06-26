@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("zs_user_info")
-public class ZsUserDO extends BaseDBDO {
+public class ZsUserDO extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;

@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("zs_ref_article_category")
-public class ZsRefArticleCategoryDO extends BaseDBDO {
+public class ZsRefArticleCategoryDO extends BaseDO {
 
     private String articleId;
 

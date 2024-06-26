@@ -6,7 +6,6 @@ import com.zj.zs.constants.GlobalConstants;
 import com.zj.zs.converter.ArticleConverter;
 import com.zj.zs.dao.*;
 import com.zj.zs.domain.dto.article.*;
-import com.zj.zs.domain.dto.markdown.MarkdownContentDto;
 import com.zj.zs.domain.dto.page.ZsPageDto;
 import com.zj.zs.domain.dto.request.ArticleDetailReqDto;
 import com.zj.zs.domain.dto.request.ArticleReqDto;
@@ -15,7 +14,6 @@ import com.zj.zs.domain.dto.request.CommentSubmitReqDto;
 import com.zj.zs.domain.entity.*;
 import com.zj.zs.service.ArticleService;
 import com.zj.zs.service.DocusaurusService;
-import com.zj.zs.service.markdown.MarkdownMakerService;
 import com.zj.zs.utils.QQSendEmailService;
 import com.zj.zs.utils.Safes;
 import lombok.extern.slf4j.Slf4j;
@@ -50,8 +48,6 @@ public class ArticleServiceImpl implements ArticleService {
     private ZsCommentManager zsCommentManager;
     @Resource
     private ZsTagManager zsTagManager;
-    @Resource
-    private MarkdownMakerService markdownMakerService;
     @Resource
     private ZsCategoryManager zsCategoryManager;
     @Resource
@@ -97,11 +93,6 @@ public class ArticleServiceImpl implements ArticleService {
         final List<CategoryDto> categoryList = articleConverter.convertCategpryList(categoryDOList);
         result.setTagList(tagList);
         result.setCategoryList(categoryList);
-        final MarkdownContentDto markdownContentDto = markdownMakerService.generateHtmlByMarkdown(result.getContent());
-        if (Objects.nonNull(markdownContentDto)) {
-            result.setContent(markdownContentDto.getContent());
-            result.setTocString(markdownContentDto.getTocListString());
-        }
         return result;
     }
 
@@ -116,9 +107,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return Safes.of(commentList).stream()
                 .map(zsCommentDO -> {
-                    MarkdownContentDto contentMarkDown = markdownMakerService.generateHtmlByMarkdown(zsCommentDO.getContent());
                     CommentDto commentDto = articleConverter.toCommentDto(zsCommentDO);
-                    commentDto.setContent(contentMarkDown.getContent());
                     if (CollectionUtils.isEmpty(zsCommentDO.getReplyList())) {
                         return commentDto;
                     }

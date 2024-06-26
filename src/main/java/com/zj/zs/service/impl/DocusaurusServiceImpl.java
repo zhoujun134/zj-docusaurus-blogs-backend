@@ -2,23 +2,29 @@ package com.zj.zs.service.impl;
 
 import com.google.common.collect.Sets;
 import com.zj.zs.constants.DocusaurusFileTypeEnum;
+import com.zj.zs.constants.GlobalConstants;
+import com.zj.zs.dao.ArticleManager;
 import com.zj.zs.domain.dto.article.ArticleDto;
 import com.zj.zs.domain.dto.article.CategoryDto;
 import com.zj.zs.domain.dto.article.DocusaurusTemplateDto;
 import com.zj.zs.domain.dto.article.TagDto;
+import com.zj.zs.domain.dto.docusaurus.DocusaurusPublishShellConfigDto;
+import com.zj.zs.domain.dto.request.admin.AddArticleReqDto;
 import com.zj.zs.service.DocusaurusService;
 import com.zj.zs.utils.DateUtils;
 import com.zj.zs.utils.FileUtils;
 import com.zj.zs.utils.Pinyin4jUtil;
 import com.zj.zs.utils.Safes;
+import com.zj.zs.utils.exception.BusinessException;
+import com.zj.zs.utils.exception.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import static com.zj.zs.constants.GlobalConstants.ARTICLE_MD_CREATE_TAG_TITLE_TEMPLATE;
@@ -33,25 +39,38 @@ import static com.zj.zs.constants.GlobalConstants.ARTICLE_MD_CREATE_TAG_TITLE_TE
 @Slf4j
 @Service
 public class DocusaurusServiceImpl implements DocusaurusService {
+
+    @Resource
+    private ArticleManager articleManager;
     private final static Set<String> blogTagSet = Sets.newHashSet("博客", "杂谈", "随笔");
 
     @Value("${docusaurus.dir.path}")
     private String parentPath;
     @Override
-    public void createDocusaurusMdFile(ArticleDto articleDTO, DocusaurusFileTypeEnum fileTypeEnum) {
-        DocusaurusFileTypeEnum fileType = fileTypeEnum;
-        if (Objects.isNull(fileTypeEnum)) {
+    public void createDocusaurusMdFile(ArticleDto articleDTO, AddArticleReqDto request) {
+        DocusaurusPublishShellConfigDto docusaurusPublishConfig = GlobalConstants.docusaurusPublishConfig;
+        if (docusaurusPublishConfig == null) {
+            throw new BusinessException(ResultCode.DOCUSAURUS_NOT_CONFIG);
+        }
+        DocusaurusFileTypeEnum fileType = request.getFileType();
+        String parentPath = "";
+        if (StringUtils.isNotBlank(request.getFilePath())) {
+            parentPath = String.format("%s/%s", docusaurusPublishConfig.getDocusaurusProjectPath(),
+                    request.getFilePath());
+        } else {
             boolean isBlog = Safes.of(articleDTO.getCategoryList()).stream()
                     .map(CategoryDto::getName)
                     .anyMatch(blogTagSet::contains);
             fileType = DocusaurusFileTypeEnum.DOCS;
+            parentPath = String.format("%s/%s", docusaurusPublishConfig.getDocusaurusProjectPath(), "/docs");
             if (isBlog) {
                 fileType = DocusaurusFileTypeEnum.BLOG;
+                parentPath = String.format("%s/%s", docusaurusPublishConfig.getDocusaurusProjectPath(), "/blog");
             }
         }
         switch (fileType) {
-            case BLOG -> createDocusaurusBlogMdFile(articleDTO, parentPath + "/blog");
-            case DOCS -> createDocusaurusDocsMdFile(articleDTO, parentPath + "/docs");
+            case BLOG -> createDocusaurusBlogMdFile(articleDTO, parentPath);
+            case DOCS -> createDocusaurusDocsMdFile(articleDTO, parentPath);
             default -> log.warn("createDocusaurusMdFile: 不支持的文件生成类型！fileType: {}", fileType);
         }
     }
@@ -98,6 +117,8 @@ public class DocusaurusServiceImpl implements DocusaurusService {
             dirPath = "/" + categoryList.get(0).getName();
         }
         final String needGeneratePath = FileUtils.fileDirGenerate(dirPath);
+        articleDTO.setPath(needGeneratePath);
+        articleManager.updateByArticleId(articleDTO);
         generateFileTemplate(articleDTO, fileName, tagTitleTemplate, needGeneratePath);
     }
 
@@ -123,6 +144,8 @@ public class DocusaurusServiceImpl implements DocusaurusService {
         final int year = articleDTO.getCreateTime().getYear();
         final int month = articleDTO.getCreateTime().getMonth().getValue();
         final String dirPath = FileUtils.fileDirGenerate(parentPath, year, month);
+        articleDTO.setPath(dirPath);
+        articleManager.updateByArticleId(articleDTO);
         generateFileTemplate(articleDTO, fileName, tagTitleTemplate, dirPath);
     }
 }

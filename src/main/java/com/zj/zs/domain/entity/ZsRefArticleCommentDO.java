@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("zs_ref_article_comment")
-public class ZsRefArticleCommentDO  extends BaseDBDO {
+public class ZsRefArticleCommentDO  extends BaseDO {
 
 
     @TableId(type = IdType.AUTO)

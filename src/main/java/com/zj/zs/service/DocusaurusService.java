@@ -1,7 +1,7 @@
 package com.zj.zs.service;
 
-import com.zj.zs.constants.DocusaurusFileTypeEnum;
 import com.zj.zs.domain.dto.article.ArticleDto;
+import com.zj.zs.domain.dto.request.admin.AddArticleReqDto;
 
 /**
  * @ClassName DocusaurusService
@@ -12,5 +12,5 @@ import com.zj.zs.domain.dto.article.ArticleDto;
  **/
 public interface DocusaurusService {
 
-    void createDocusaurusMdFile(ArticleDto articleDTO, DocusaurusFileTypeEnum fileTypeEnum);
+    void createDocusaurusMdFile(ArticleDto articleDTO, AddArticleReqDto request);
 }

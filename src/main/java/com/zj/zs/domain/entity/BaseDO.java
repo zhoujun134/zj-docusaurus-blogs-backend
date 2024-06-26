@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @Version v1.0
  **/
 @Data
-public class BaseDBDO {
+public class BaseDO {
 
     private String createUsername;
 

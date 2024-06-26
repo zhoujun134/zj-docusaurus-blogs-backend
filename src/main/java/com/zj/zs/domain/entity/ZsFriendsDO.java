@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("zs_friends")
-public class ZsFriendsDO extends BaseDBDO {
+public class ZsFriendsDO extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;

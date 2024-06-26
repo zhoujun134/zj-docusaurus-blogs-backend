@@ -31,6 +31,14 @@ public interface ArticleConverter {
     @Mapping(target = "headerImageUrl", ignore = true)
     ArticleDto toArticleDTO(ZsArticleDO zsArticleDO);
 
+    @Mapping(target = "updateUsername", ignore = true)
+    @Mapping(target = "updateTime", ignore = true)
+    @Mapping(target = "isDelete", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createUsername", ignore = true)
+    ZsArticleDO toDO(ArticleDto dto);
+    @Mapping(target = "type", expression = "java(java.util.Objects.nonNull(dto.getFileType()) ? dto.fileType.getCode() : \"blog\")")
+    @Mapping(target = "path", source = "dto.filePath")
     @Mapping(target = "articleId", expression = "java(com.zj.zs.utils.UUIDUtils.uuid())")
     @Mapping(target = "createTime", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "updateUsername", ignore = true)

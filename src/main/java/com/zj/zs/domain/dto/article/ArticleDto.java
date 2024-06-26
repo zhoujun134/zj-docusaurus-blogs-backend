@@ -1,6 +1,7 @@
 package com.zj.zs.domain.dto.article;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zj.zs.constants.DocusaurusFileTypeEnum;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -31,10 +32,6 @@ public class ArticleDto {
      * 文章摘要
      */
     private String articleAbstract;
-    /**
-     * 文章内容
-     */
-    private String tocString = "";
 
     /**
      * 文章内容
@@ -56,4 +53,11 @@ public class ArticleDto {
      * 文章分类
      */
     private List<CategoryDto> categoryList = Collections.emptyList();
+
+    /**
+     * 文章 path
+     */
+    private String path = "";
+
+    private String type =  DocusaurusFileTypeEnum.BLOG.getCode();
 }

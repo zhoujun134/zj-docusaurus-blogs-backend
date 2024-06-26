@@ -7,7 +7,6 @@ import com.zj.zs.domain.dto.config.QQEmailConfigDto;
 import com.zj.zs.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.validation.constraints.NotNull;
 import java.security.GeneralSecurityException;
 import java.util.Objects;
 import java.util.Properties;

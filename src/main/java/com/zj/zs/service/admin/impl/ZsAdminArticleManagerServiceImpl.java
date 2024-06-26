@@ -72,7 +72,7 @@ public class ZsAdminArticleManagerServiceImpl implements ZsAdminArticleManagerSe
     @Value("${docusaurus.nginx.site.dir.path}")
     private String nginxSitePath;
     @Value("${docusaurus.nginx.site.history.dir.path}")
-    private String buildHistotyPath;
+    private String buildHistoryPath;
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ArticleDto addArticle(AddArticleReqDto request) {
@@ -101,12 +101,12 @@ public class ZsAdminArticleManagerServiceImpl implements ZsAdminArticleManagerSe
 
     private void deployArticleToNginx(AddArticleReqDto request, ArticleDto detail) {
         // 生成md文件
-        docusaurusService.createDocusaurusMdFile(detail, request.getFileType());
+        docusaurusService.createDocusaurusMdFile(detail, request);
         // 发布文章
         DocusaurusPublishShellConfigDto config = new DocusaurusPublishShellConfigDto()
                 .setDocusaurusProjectPath(parentPath)
                 .setNginxSitePath(nginxSitePath)
-                .setBuildHistoryPath(buildHistotyPath);
+                .setBuildHistoryPath(buildHistoryPath);
         List<String> commands = SystemCommandExecutor.initCommandsByConfig(config);
         ExecuteResult executeResult = SystemCommandExecutor.executeCommands(commands);
         if (Objects.nonNull(executeResult)) {
@@ -147,5 +147,12 @@ public class ZsAdminArticleManagerServiceImpl implements ZsAdminArticleManagerSe
                 .map(name -> new ZsTagDO(UUIDUtils.uuid(), name))
                 .toList();
         return zsTagManager.saveBatch(needAddTagList);
+    }
+
+    @Override
+    public boolean setDocusaurusConfig(DocusaurusPublishShellConfigDto request) {
+        log.info("##setDocusaurusConfig: 设置全局 docusaurus 发布脚本配置文件！");
+        GlobalConstants.docusaurusPublishConfig = request;
+        return true;
     }
 }

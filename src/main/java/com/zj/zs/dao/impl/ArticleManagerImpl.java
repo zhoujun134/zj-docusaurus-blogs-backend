@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Sets;
+import com.zj.zs.converter.ArticleConverter;
 import com.zj.zs.dao.ArticleManager;
 import com.zj.zs.dao.ZsRefArticleCategoryManager;
 import com.zj.zs.dao.ZsRefArticleTagManager;
 import com.zj.zs.dao.mapper.ArticleMapper;
 import com.zj.zs.domain.dto.article.ArchivistDto;
+import com.zj.zs.domain.dto.article.ArticleDto;
 import com.zj.zs.domain.dto.request.ArticleReqDto;
 import com.zj.zs.domain.entity.ZsArticleDO;
 import com.zj.zs.utils.JsonUtils;
@@ -38,6 +40,8 @@ public class ArticleManagerImpl extends ServiceImpl<ArticleMapper, ZsArticleDO> 
     private ZsRefArticleTagManager zsRefArticleTagManager;
     @Resource
     private ZsRefArticleCategoryManager zsRefArticleCategoryManager;
+    @Resource
+    private ArticleConverter articleConverter;
 
     @Override
     public Page<ZsArticleDO> pageList(ArticleReqDto request) {
@@ -105,5 +109,18 @@ public class ArticleManagerImpl extends ServiceImpl<ArticleMapper, ZsArticleDO> 
         stopWatch.stop();
         log.info("##archivist:优化访问接口响应: {}", stopWatch.prettyPrint());
         return result;
+    }
+
+    @Override
+    public void updateByArticleId(ArticleDto articleDto) {
+        if (StringUtils.isBlank(articleDto.getArticleId())) {
+            log.warn("##updateByArticleId: 缺少必要的更新参数！articleDto={}", JsonUtils.toString(articleDto));
+            return;
+        }
+        ZsArticleDO entity = articleConverter.toDO(articleDto);
+        boolean updateRes = lambdaUpdate().eq(ZsArticleDO::getArticleId, articleDto.getArticleId())
+                .update(entity);
+        log.info("##updateByArticleId: 更新完成！articleDto={}, updateRes={}",
+                JsonUtils.toString(articleDto), updateRes);
     }
 }

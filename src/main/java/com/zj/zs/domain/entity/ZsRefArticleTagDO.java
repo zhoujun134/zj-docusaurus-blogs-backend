@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("zs_ref_article_tag")
-public class ZsRefArticleTagDO extends BaseDBDO {
+public class ZsRefArticleTagDO extends BaseDO {
 
     private String articleId;
 

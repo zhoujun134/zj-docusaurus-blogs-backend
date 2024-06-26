@@ -23,7 +23,6 @@
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <mybatis-spring.version>2.1.2</mybatis-spring.version>
         <sa-token-spring.version>1.37.0</sa-token-spring.version>
-        <commonmark.version>0.18.1</commonmark.version>
         <hutool.version>5.8.26</hutool.version>
     </properties>
 
@@ -119,24 +118,11 @@
             <version>${mapstruct.version}</version>
         </dependency>
 
-        <!-- markdown 文件转为 html 文件-->
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-all</artifactId>
-            <version>0.64.8</version>
-        </dependency>
-
         <!-- qq 邮箱会被使用到 -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version>
-        </dependency>
-        <!-- 腾讯云对象存储 -->
-        <dependency>
-            <groupId>com.qcloud</groupId>
-            <artifactId>cos_api</artifactId>
-            <version>5.6.155</version>
         </dependency>
 
         <dependency>

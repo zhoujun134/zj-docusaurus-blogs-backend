@@ -3,6 +3,7 @@ package com.zj.zs.constants;
 import com.zj.zs.domain.dto.article.CategoryDto;
 import com.zj.zs.domain.dto.config.QQEmailConfigDto;
 import com.zj.zs.domain.dto.config.TencentConfigDto;
+import com.zj.zs.domain.dto.docusaurus.DocusaurusPublishShellConfigDto;
 
 /**
  * @ClassName GlobalConstants
@@ -50,4 +51,6 @@ public class GlobalConstants {
             image: ${blogImage}
             ---
             """;
+
+    public static DocusaurusPublishShellConfigDto docusaurusPublishConfig = null;
 }
