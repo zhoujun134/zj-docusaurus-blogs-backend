@@ -13,4 +13,5 @@ import com.zj.zs.domain.entity.ZsDictionaryDO;
 public interface DictionaryManager extends IService<ZsDictionaryDO> {
 
     String getByKey(String key);
+    boolean updateByKey(String key, String value);
 }

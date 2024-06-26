@@ -3,10 +3,7 @@ package com.zj.zs.service.admin.impl;
 import com.google.common.collect.Lists;
 import com.zj.zs.constants.GlobalConstants;
 import com.zj.zs.converter.ArticleConverter;
-import com.zj.zs.dao.ArticleManager;
-import com.zj.zs.dao.ZsCategoryManager;
-import com.zj.zs.dao.ZsFileManager;
-import com.zj.zs.dao.ZsTagManager;
+import com.zj.zs.dao.*;
 import com.zj.zs.domain.dto.article.ArticleDto;
 import com.zj.zs.domain.dto.article.CategoryDto;
 import com.zj.zs.domain.dto.article.TagDto;
@@ -40,6 +37,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.zj.zs.constants.GlobalConstants.DEFAULT_IMAGE_CATEGORY;
+import static com.zj.zs.constants.GlobalConstants.DOCUSAURUS_CONFIG_DICT_KEY;
 
 /**
  * @ClassName ZsAdminArticleManagerServiceImpl
@@ -66,6 +64,8 @@ public class ZsAdminArticleManagerServiceImpl implements ZsAdminArticleManagerSe
     private ArticleService articleService;
     @Resource
     private DocusaurusService docusaurusService;
+    @Resource
+    private DictionaryManager dictionaryManager;
 
     @Value("${docusaurus.dir.path}")
     private String parentPath;
@@ -153,6 +153,7 @@ public class ZsAdminArticleManagerServiceImpl implements ZsAdminArticleManagerSe
     public boolean setDocusaurusConfig(DocusaurusPublishShellConfigDto request) {
         log.info("##setDocusaurusConfig: 设置全局 docusaurus 发布脚本配置文件！");
         GlobalConstants.docusaurusPublishConfig = request;
+        dictionaryManager.updateByKey(DOCUSAURUS_CONFIG_DICT_KEY, JsonUtils.toString(request));
         return true;
     }
 }

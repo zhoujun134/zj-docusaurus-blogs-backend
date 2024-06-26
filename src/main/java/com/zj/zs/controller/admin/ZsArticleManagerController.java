@@ -4,6 +4,7 @@ import com.zj.zs.domain.Result;
 import com.zj.zs.domain.dto.article.ArticleDto;
 import com.zj.zs.domain.dto.article.CategoryDto;
 import com.zj.zs.domain.dto.article.TagDto;
+import com.zj.zs.domain.dto.docusaurus.DocusaurusPublishShellConfigDto;
 import com.zj.zs.domain.dto.request.admin.AddArticleReqDto;
 import com.zj.zs.service.admin.ZsAdminArticleManagerService;
 import com.zj.zs.utils.JsonUtils;
@@ -51,6 +52,13 @@ public class ZsArticleManagerController {
     public Result<Boolean> tagAdd(@RequestBody @Valid @NotEmpty(message = "添加的文章标签列表不能为空！") List<TagDto> request) {
         log.info("ZsArticleManagerController######tagAdd: request={}", JsonUtils.toString(request));
         boolean result = zsAdminArticleManagerService.addTag(request);
+        return Result.ok(result);
+    }
+
+    @PostMapping("/docusaurus/config/add")
+    public Result<Boolean> docusaurusConfig(@RequestBody @Valid DocusaurusPublishShellConfigDto request) {
+        log.info("ZsArticleManagerController######docusaurusConfig: request={}", JsonUtils.toString(request));
+        boolean result = zsAdminArticleManagerService.setDocusaurusConfig(request);
         return Result.ok(result);
     }
 }

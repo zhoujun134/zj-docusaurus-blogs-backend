@@ -35,4 +35,16 @@ public class DictionaryManagerImpl extends ServiceImpl<DictionaryMapper, ZsDicti
                 .map(ZsDictionaryDO::getValue)
                 .orElse("");
     }
+
+    @Override
+    public boolean updateByKey(String key, String value) {
+        if (StringUtils.isAnyBlank(key, value)) {
+            log.warn("##updateByKey## key or value is blank！key={}, value={}", key, value);
+            return false;
+        }
+        return lambdaUpdate()
+                .set(ZsDictionaryDO::getValue, value)
+                .eq(ZsDictionaryDO::getKey, key)
+                .update();
+    }
 }

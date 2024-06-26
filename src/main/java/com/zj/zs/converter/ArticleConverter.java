@@ -37,7 +37,7 @@ public interface ArticleConverter {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createUsername", ignore = true)
     ZsArticleDO toDO(ArticleDto dto);
-    @Mapping(target = "type", expression = "java(java.util.Objects.nonNull(dto.getFileType()) ? dto.fileType.getCode() : \"blog\")")
+    @Mapping(target = "type", expression = "java(java.util.Objects.nonNull(dto.getFileType()) ? dto.getFileType().getCode() : \"blog\")")
     @Mapping(target = "path", source = "dto.filePath")
     @Mapping(target = "articleId", expression = "java(com.zj.zs.utils.UUIDUtils.uuid())")
     @Mapping(target = "createTime", expression = "java(java.time.LocalDateTime.now())")

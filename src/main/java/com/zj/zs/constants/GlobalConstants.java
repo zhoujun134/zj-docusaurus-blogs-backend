@@ -32,6 +32,7 @@ public class GlobalConstants {
      */
     public final static int ACCESS_LOG_ONE_IP_VISITED_MAX_ONE_MINUTE = 20;
     public final static String ACCESS_BLACK_IP_KEY = "zs.access.ip.black.list.key";
+    public final static String ACCESS_IP_KEY = "x-real-ip";
     public final static String ZS_BLOG_SESSION_ID = "zs-blog-session-id";
     public static TencentConfigDto tencentConfigDto = null;
     public static QQEmailConfigDto emailConfigDto = null;
@@ -53,4 +54,7 @@ public class GlobalConstants {
             """;
 
     public static DocusaurusPublishShellConfigDto docusaurusPublishConfig = null;
+
+    public static String DOCUSAURUS_CONFIG_DICT_KEY = "zs.docusaurus.config.dict.key";
+
 }
