@@ -103,10 +103,7 @@ public class ZsAdminArticleManagerServiceImpl implements ZsAdminArticleManagerSe
         // 生成md文件
         docusaurusService.createDocusaurusMdFile(detail, request);
         // 发布文章
-        DocusaurusPublishShellConfigDto config = new DocusaurusPublishShellConfigDto()
-                .setDocusaurusProjectPath(parentPath)
-                .setNginxSitePath(nginxSitePath)
-                .setBuildHistoryPath(buildHistoryPath);
+        DocusaurusPublishShellConfigDto config = GlobalConstants.docusaurusPublishConfig;
         List<String> commands = SystemCommandExecutor.initCommandsByConfig(config);
         ExecuteResult executeResult = SystemCommandExecutor.executeCommands(commands);
         if (Objects.nonNull(executeResult)) {

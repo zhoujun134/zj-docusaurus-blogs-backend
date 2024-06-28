@@ -62,10 +62,10 @@ public class DocusaurusServiceImpl implements DocusaurusService {
                     .map(CategoryDto::getName)
                     .anyMatch(blogTagSet::contains);
             fileType = DocusaurusFileTypeEnum.DOCS;
-            parentPath = String.format("%s/%s", docusaurusPublishConfig.getDocusaurusProjectPath(), "/docs");
+            parentPath = String.format("%s/%s", docusaurusPublishConfig.getDocusaurusProjectPath(), "docs");
             if (isBlog) {
                 fileType = DocusaurusFileTypeEnum.BLOG;
-                parentPath = String.format("%s/%s", docusaurusPublishConfig.getDocusaurusProjectPath(), "/blog");
+                parentPath = String.format("%s/%s", docusaurusPublishConfig.getDocusaurusProjectPath(), "blog");
             }
         }
         switch (fileType) {
@@ -100,7 +100,11 @@ public class DocusaurusServiceImpl implements DocusaurusService {
             tagTitleString = "随笔";
         }
         tagTitleTemplate = tagTitleTemplate.replace("${tagListString}", tagTitleString);
-        tagTitleTemplate = tagTitleTemplate.replace("${blogImage}", articleDTO.getHeaderImageUrl());
+        String headerImageUrl = articleDTO.getHeaderImageUrl();
+        if (StringUtils.isBlank(headerImageUrl)) {
+            headerImageUrl = "";
+        }
+        tagTitleTemplate = tagTitleTemplate.replace("${blogImage}", headerImageUrl);
         log.info("生成的模板标题为: {}", tagTitleTemplate);
         log.info("生成的 fileName 为: {}", fileName);
         log.info("生成的 path 为: {}", pingYinTitleName);

@@ -81,6 +81,7 @@ public class SystemCommandExecutor {
                 // 进入到指定的文件目录
                 String.format("cd %s;", config.getDocusaurusProjectPath()),
                 "pwd;",
+                "npm install;",
                 // 使用 docusaurus 命令 build 项目
                 "npm run build;",
                 // 上一个版本进行备份
