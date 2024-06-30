@@ -150,7 +150,21 @@ public class ZsAdminArticleManagerServiceImpl implements ZsAdminArticleManagerSe
     public boolean setDocusaurusConfig(DocusaurusPublishShellConfigDto request) {
         log.info("##setDocusaurusConfig: 设置全局 docusaurus 发布脚本配置文件！");
         GlobalConstants.docusaurusPublishConfig = request;
-        dictionaryManager.updateByKey(DOCUSAURUS_CONFIG_DICT_KEY, JsonUtils.toString(request));
+        dictionaryManager.saveOrUpdateByKey(DOCUSAURUS_CONFIG_DICT_KEY, JsonUtils.toString(request));
         return true;
+    }
+
+    @Override
+    public DocusaurusPublishShellConfigDto getDocusaurusConfig() {
+        if (Objects.nonNull(GlobalConstants.docusaurusPublishConfig)) {
+            return GlobalConstants.docusaurusPublishConfig;
+        }
+        String value = dictionaryManager.getByKey(DOCUSAURUS_CONFIG_DICT_KEY);
+        DocusaurusPublishShellConfigDto configDto = JsonUtils.parseObject(value, DocusaurusPublishShellConfigDto.class);
+        if (Objects.isNull(configDto)) {
+            return new DocusaurusPublishShellConfigDto();
+        }
+        GlobalConstants.docusaurusPublishConfig = configDto;
+        return configDto;
     }
 }

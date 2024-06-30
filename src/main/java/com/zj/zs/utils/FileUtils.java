@@ -34,6 +34,11 @@ public class FileUtils {
         }
     }
 
+    public static boolean checkIsExist(String filePath) {
+        final Path path = Path.of(filePath);
+        return Files.exists(path);
+    }
+
     /**
      * 文件目录生成
      * @param parentPath 父目录

@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zj.zs.dao.DictionaryManager;
 import com.zj.zs.dao.mapper.DictionaryMapper;
 import com.zj.zs.domain.entity.ZsDictionaryDO;
+import com.zj.zs.utils.JsonUtils;
 import com.zj.zs.utils.Safes;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -37,14 +40,22 @@ public class DictionaryManagerImpl extends ServiceImpl<DictionaryMapper, ZsDicti
     }
 
     @Override
-    public boolean updateByKey(String key, String value) {
+    @Transactional(rollbackFor = {Exception.class})
+    public boolean saveOrUpdateByKey(String key, String value) {
         if (StringUtils.isAnyBlank(key, value)) {
-            log.warn("##updateByKey## key or value is blank！key={}, value={}", key, value);
+            log.warn("##saveOrUpdateByKey## key or value is blank！key={}, value={}", key, value);
             return false;
         }
-        return lambdaUpdate()
-                .set(ZsDictionaryDO::getValue, value)
+        List<ZsDictionaryDO> resList = lambdaQuery()
                 .eq(ZsDictionaryDO::getKey, key)
-                .update();
+                .list();
+        if (CollectionUtils.isEmpty(resList)) {
+            ZsDictionaryDO entity = new ZsDictionaryDO(key, value);
+            boolean saveRes = this.save(entity);
+            log.info("##saveOrUpdateByKey## save one data, saveRes={}, entity={}", saveRes, JsonUtils.toString(entity));
+            return saveRes;
+        }
+        Safes.of(resList).forEach(entity -> entity.setValue(value));
+        return this.updateBatchById(resList);
     }
 }

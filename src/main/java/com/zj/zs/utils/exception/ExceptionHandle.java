@@ -1,5 +1,6 @@
 package com.zj.zs.utils.exception;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import com.zj.zs.domain.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +30,15 @@ public class ExceptionHandle {
         // 匿名用户异常
         response.setStatus(401);
         log.error("ExceptionHandle  --> anonymousException error: ", exception);
+        return Result.fail(ResultCode.ANONYMOUS_USER_EXCEPTION.getMessage());
+    }
+
+
+    @ExceptionHandler(NotLoginException.class)
+    public Result<String> notLoginException(NotLoginException exception, HttpServletResponse response) {
+        // 匿名用户异常
+        response.setStatus(401);
+        log.error("ExceptionHandle  --> NotLoginException error: ", exception);
         return Result.fail(ResultCode.ANONYMOUS_USER_EXCEPTION.getMessage());
     }
 

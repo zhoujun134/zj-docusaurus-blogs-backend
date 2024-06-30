@@ -10,10 +10,7 @@ import com.zj.zs.service.admin.ZsAdminArticleManagerService;
 import com.zj.zs.utils.JsonUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -60,5 +57,9 @@ public class ZsArticleManagerController {
         log.info("ZsArticleManagerController######docusaurusConfig: request={}", JsonUtils.toString(request));
         boolean result = zsAdminArticleManagerService.setDocusaurusConfig(request);
         return Result.ok(result);
+    }
+    @GetMapping("/docusaurus/config/query")
+    public Result<DocusaurusPublishShellConfigDto> getDocusaurusConfig() {
+        return Result.ok(zsAdminArticleManagerService.getDocusaurusConfig());
     }
 }

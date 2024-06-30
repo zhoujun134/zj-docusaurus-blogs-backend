@@ -4,12 +4,14 @@ import com.google.common.collect.Sets;
 import com.zj.zs.constants.DocusaurusFileTypeEnum;
 import com.zj.zs.constants.GlobalConstants;
 import com.zj.zs.dao.ArticleManager;
+import com.zj.zs.dao.ZsFileManager;
 import com.zj.zs.domain.dto.article.ArticleDto;
 import com.zj.zs.domain.dto.article.CategoryDto;
 import com.zj.zs.domain.dto.article.DocusaurusTemplateDto;
 import com.zj.zs.domain.dto.article.TagDto;
 import com.zj.zs.domain.dto.docusaurus.DocusaurusPublishShellConfigDto;
 import com.zj.zs.domain.dto.request.admin.AddArticleReqDto;
+import com.zj.zs.domain.entity.ZsFileDO;
 import com.zj.zs.service.DocusaurusService;
 import com.zj.zs.utils.DateUtils;
 import com.zj.zs.utils.FileUtils;
@@ -25,6 +27,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.zj.zs.constants.GlobalConstants.ARTICLE_MD_CREATE_TAG_TITLE_TEMPLATE;
@@ -42,10 +45,13 @@ public class DocusaurusServiceImpl implements DocusaurusService {
 
     @Resource
     private ArticleManager articleManager;
+    @Resource
+    private ZsFileManager zsFileManager;
     private final static Set<String> blogTagSet = Sets.newHashSet("博客", "杂谈", "随笔");
 
     @Value("${docusaurus.dir.path}")
     private String parentPath;
+
     @Override
     public void createDocusaurusMdFile(ArticleDto articleDTO, AddArticleReqDto request) {
         DocusaurusPublishShellConfigDto docusaurusPublishConfig = GlobalConstants.docusaurusPublishConfig;
@@ -81,7 +87,7 @@ public class DocusaurusServiceImpl implements DocusaurusService {
         // 文件名
         final String fileName = String.format("%s-%s.md", createTime, pingYinTitleName);
         String tagTitleTemplate = ARTICLE_MD_CREATE_TAG_TITLE_TEMPLATE;
-        tagTitleTemplate = tagTitleTemplate.replace("${tilePath}", pingYinTitleName);
+        tagTitleTemplate = tagTitleTemplate.replace("${tilePath}", fileName);
         tagTitleTemplate = tagTitleTemplate.replace("${tile}", articleDTO.getTitle());
         tagTitleTemplate = tagTitleTemplate.replace("${authorName}", "zhoujun134");
         final List<CategoryDto> categoryList = articleDTO.getCategoryList();
@@ -102,7 +108,13 @@ public class DocusaurusServiceImpl implements DocusaurusService {
         tagTitleTemplate = tagTitleTemplate.replace("${tagListString}", tagTitleString);
         String headerImageUrl = articleDTO.getHeaderImageUrl();
         if (StringUtils.isBlank(headerImageUrl)) {
-            headerImageUrl = "";
+            List<ZsFileDO> zsFileDOS = zsFileManager.randomOne(1);
+            if (CollectionUtils.isEmpty(zsFileDOS)) {
+                headerImageUrl = "";
+            } else {
+                Optional<ZsFileDO> zsFileDO = zsFileDOS.stream().findAny();
+                headerImageUrl = zsFileDO.map(ZsFileDO::getUrl).orElse("");
+            }
         }
         tagTitleTemplate = tagTitleTemplate.replace("${blogImage}", headerImageUrl);
         log.info("生成的模板标题为: {}", tagTitleTemplate);
@@ -122,8 +134,8 @@ public class DocusaurusServiceImpl implements DocusaurusService {
         }
         final String needGeneratePath = FileUtils.fileDirGenerate(dirPath);
         articleDTO.setPath(needGeneratePath);
-        articleManager.updateByArticleId(articleDTO);
         generateFileTemplate(articleDTO, fileName, tagTitleTemplate, needGeneratePath);
+        articleManager.updateByArticleId(articleDTO);
     }
 
     private void generateFileTemplate(ArticleDto articleDTO, String fileName, String tagTitleTemplate, String needGeneratePath) {
@@ -139,6 +151,7 @@ public class DocusaurusServiceImpl implements DocusaurusService {
 
         final String filePath = String.format("%s/%s", needGeneratePath, fileName);
         FileUtils.writeToNewFile(content, filePath);
+        articleDTO.setPath(filePath);
     }
 
     private void createDocusaurusBlogMdFile(ArticleDto articleDTO, String parentPath) {

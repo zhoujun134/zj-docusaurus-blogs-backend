@@ -13,6 +13,7 @@ import com.zj.zs.utils.UUIDUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.util.CollectionUtils;
 
@@ -39,6 +40,9 @@ public class LoginFilter implements Filter {
 
     @Resource
     private CacheService cacheService;
+
+    @Value("#{'${zs.boot.sso.paths}'.split(',')}")
+    private List<String> filterPaths;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

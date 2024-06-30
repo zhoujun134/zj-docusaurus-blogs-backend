@@ -1,7 +1,9 @@
 package com.zj.zs.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @ClassName DictionaryDto
@@ -12,6 +14,8 @@ import lombok.Data;
  **/
 @Data
 @TableName("zs_dictionary")
+@AllArgsConstructor
+@NoArgsConstructor
 public class ZsDictionaryDO {
 
     @TableId(type = IdType.AUTO)
@@ -26,4 +30,9 @@ public class ZsDictionaryDO {
     @TableLogic
     @TableField(value = "deleted")
     private boolean isDelete;
+
+    public ZsDictionaryDO(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
 }

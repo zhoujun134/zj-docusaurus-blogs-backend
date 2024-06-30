@@ -20,6 +20,6 @@ public interface ZsAdminArticleManagerService {
     ArticleDto addArticle(AddArticleReqDto request);
     boolean addNewCategoryForNotExist(List<CategoryDto> categoryDto);
     boolean addTag(List<TagDto> tagDto);
-
     boolean setDocusaurusConfig(DocusaurusPublishShellConfigDto request);
+    DocusaurusPublishShellConfigDto getDocusaurusConfig();
 }
