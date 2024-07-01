@@ -119,7 +119,7 @@ public class ZsCategoryManagerImpl extends ServiceImpl<ZsCategoryMapper, ZsCateg
         }
 
         return lambdaQuery()
-                .eq(ZsCategoryDO::getCategoryId, categoryIdList)
+                .in(ZsCategoryDO::getCategoryId, categoryIdList)
                 .list();
     }
 

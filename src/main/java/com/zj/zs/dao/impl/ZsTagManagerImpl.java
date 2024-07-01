@@ -123,7 +123,7 @@ public class ZsTagManagerImpl extends ServiceImpl<ZsTagMapper, ZsTagDO> implemen
         }
 
         return lambdaQuery()
-                .eq(ZsTagDO::getTagId, tagIdList)
+                .in(ZsTagDO::getTagId, tagIdList)
                 .list();
     }
 }
