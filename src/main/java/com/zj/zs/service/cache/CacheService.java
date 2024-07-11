@@ -11,7 +11,7 @@ public interface CacheService {
 
     void set(String key, Object value);
 
-    Object get(String key);
+    String get(String key);
 
     <T> T get(String key, Class<T> tClass);
 

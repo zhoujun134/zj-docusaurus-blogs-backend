@@ -30,7 +30,7 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
-    public Object get(String key) {
+    public String get(String key) {
         return redisTemplate.opsForValue().get(key);
     }
 

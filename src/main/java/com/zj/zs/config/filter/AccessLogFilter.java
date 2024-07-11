@@ -30,8 +30,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Map;
 
-import static com.zj.zs.constants.GlobalConstants.ACCESS_BLACK_IP_KEY;
-import static com.zj.zs.constants.GlobalConstants.ACCESS_IP_KEY;
+import static com.zj.zs.constants.GlobalConstants.*;
 
 /**
  * @author zhoujun09@kuaishou.com
