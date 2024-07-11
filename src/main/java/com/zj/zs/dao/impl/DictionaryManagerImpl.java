@@ -1,8 +1,10 @@
 package com.zj.zs.dao.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zj.zs.constants.GlobalConstants;
 import com.zj.zs.dao.DictionaryManager;
 import com.zj.zs.dao.mapper.DictionaryMapper;
+import com.zj.zs.domain.dto.config.AccessConfigDto;
 import com.zj.zs.domain.entity.ZsDictionaryDO;
 import com.zj.zs.utils.JsonUtils;
 import com.zj.zs.utils.Safes;
@@ -13,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @ClassName DictionaryManagerImpl
@@ -25,6 +30,7 @@ import java.util.List;
 @Component
 public class DictionaryManagerImpl extends ServiceImpl<DictionaryMapper, ZsDictionaryDO> implements DictionaryManager {
 
+    private final static ExecutorService executeService = Executors.newFixedThreadPool(10);
     @Override
     public String getByKey(String key) {
         if (StringUtils.isBlank(key)) {
@@ -57,5 +63,20 @@ public class DictionaryManagerImpl extends ServiceImpl<DictionaryMapper, ZsDicti
         }
         Safes.of(resList).forEach(entity -> entity.setValue(value));
         return this.updateBatchById(resList);
+    }
+    @Override
+    public AccessConfigDto getAccessConfig() {
+        executeService.execute(() -> {
+            String dictionaryConfigString = this.getByKey(GlobalConstants.ACCESS_CONFIG_DICT_KEY);
+            if (StringUtils.isBlank(dictionaryConfigString)) {
+                log.warn("async##initDocusaurusConfig: {} dictionaryConfig is not set", GlobalConstants.ACCESS_CONFIG_DICT_KEY);
+                return ;
+            }
+            AccessConfigDto accessConfigDto = JsonUtils.parseObject(dictionaryConfigString, AccessConfigDto.class);
+            if (Objects.nonNull(accessConfigDto)) {
+                GlobalConstants.accessConfig = accessConfigDto;
+            }
+        });
+        return GlobalConstants.accessConfig;
     }
 }

@@ -16,6 +16,7 @@ import com.zj.zs.service.ArticleService;
 import com.zj.zs.service.DocusaurusService;
 import com.zj.zs.utils.QQSendEmailService;
 import com.zj.zs.utils.Safes;
+import com.zj.zs.utils.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -85,6 +86,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDto detail(ArticleDetailReqDto request) {
         final ZsArticleDO resByDB = articleManager.getByArticleId(request.getArticleId());
+        if (Objects.isNull(resByDB)) {
+            throw new BusinessException("获取的文章详情不存在，ArticleId="+request.getArticleId());
+        }
         final String articleId = request.getArticleId();
         final List<ZsCategoryDO> categoryDOList = zsCategoryManager.getByArticleId(articleId);
         final List<ZsTagDO> tagDOList = zsTagManager.getByArticleId(articleId);

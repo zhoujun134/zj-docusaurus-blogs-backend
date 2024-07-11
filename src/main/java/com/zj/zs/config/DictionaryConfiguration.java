@@ -11,13 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-/**
- * @ClassName KvConfiguration
- * @Author zj
- * @Description
- * @Date 2024/6/30 16:36
- * @Version v1.0
- **/
 @Configuration
 @Slf4j
 public class DictionaryConfiguration {

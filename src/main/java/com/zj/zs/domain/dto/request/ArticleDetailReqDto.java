@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @ClassName ArticleDetailReqDTO
  * @Author zj
@@ -16,5 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ArticleDetailReqDto {
 
+    @NotBlank(message = "文章 ID 不能为空")
     private String articleId;
 }

@@ -1,6 +1,7 @@
 package com.zj.zs.dao;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zj.zs.domain.dto.config.AccessConfigDto;
 import com.zj.zs.domain.entity.ZsDictionaryDO;
 
 /**
@@ -14,5 +15,5 @@ public interface DictionaryManager extends IService<ZsDictionaryDO> {
 
     String getByKey(String key);
     boolean saveOrUpdateByKey(String key, String value);
-
+    AccessConfigDto getAccessConfig();
 }

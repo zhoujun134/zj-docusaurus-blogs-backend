@@ -1,6 +1,7 @@
 package com.zj.zs.constants;
 
 import com.zj.zs.domain.dto.article.CategoryDto;
+import com.zj.zs.domain.dto.config.AccessConfigDto;
 import com.zj.zs.domain.dto.config.QQEmailConfigDto;
 import com.zj.zs.domain.dto.config.TencentConfigDto;
 import com.zj.zs.domain.dto.docusaurus.DocusaurusPublishShellConfigDto;
@@ -56,5 +57,8 @@ public class GlobalConstants {
     public static DocusaurusPublishShellConfigDto docusaurusPublishConfig = null;
 
     public static String DOCUSAURUS_CONFIG_DICT_KEY = "zs.docusaurus.config.dict.key";
+    public static String ACCESS_CONFIG_DICT_KEY = "zs.access.config.dict.key";
+
+    public static AccessConfigDto accessConfig = new AccessConfigDto();
 
 }
