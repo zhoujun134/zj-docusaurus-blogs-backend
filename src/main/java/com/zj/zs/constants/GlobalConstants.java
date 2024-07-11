@@ -3,7 +3,6 @@ package com.zj.zs.constants;
 import com.zj.zs.domain.dto.article.CategoryDto;
 import com.zj.zs.domain.dto.config.AccessConfigDto;
 import com.zj.zs.domain.dto.config.QQEmailConfigDto;
-import com.zj.zs.domain.dto.config.TencentConfigDto;
 import com.zj.zs.domain.dto.docusaurus.DocusaurusPublishShellConfigDto;
 
 /**
@@ -15,7 +14,6 @@ import com.zj.zs.domain.dto.docusaurus.DocusaurusPublishShellConfigDto;
  **/
 public class GlobalConstants {
     public final static String DEFAULT_USER_NAME = "zs-boot-default-user";
-    public final static String TENCENT_CONFIG_KEY = "zs-boot-tencent-config";
     public final static String QQ_EMAIL_CONFIG_KEY = "zs-boot-qq-email-config";
     public final static CategoryDto DEFAULT_CATEGORY_ID = new CategoryDto("zs-suibi", "随笔");
     public final static String DEFAULT_IMAGE_CATEGORY = "blog-content";
@@ -35,7 +33,6 @@ public class GlobalConstants {
     public final static String ACCESS_BLACK_IP_KEY = "zs.access.ip.black.list.key";
     public final static String ACCESS_IP_KEY = "x-real-ip";
     public final static String ZS_BLOG_SESSION_ID = "zs-blog-session-id";
-    public static TencentConfigDto tencentConfigDto = null;
     public static QQEmailConfigDto emailConfigDto = null;
 
     public static final String ARTICLE_ABSTRACT_PROMOTE = "根据文章内容，请使用中文生成文章摘要，返回的结果只需要包含实际的摘要内容即可，如果文章内容较少，可以直接返回空, 文章内容如下: ";
