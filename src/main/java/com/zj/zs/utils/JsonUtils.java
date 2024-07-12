@@ -2,12 +2,14 @@ package com.zj.zs.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 public class JsonUtils {
@@ -40,5 +42,36 @@ public class JsonUtils {
             log.error("JsonUtils######parseObject： error data={}", text, e);
             return null;
         }
+    }
+    public static <T> List<T> parseArray(String text, Class<T> clazz) {
+        List<T> result = Collections.emptyList();
+        try {
+            if (StringUtils.isBlank(text)) {
+                text = "[]";
+            }
+            result = gson.fromJson(text, TypeToken.getParameterized(ArrayList.class, new Type[] {clazz}).getType());
+        } catch (Exception e) {
+            String message =
+                    String.format("GsonUtil######parseObject 对象转换 json 异常! text=%s, clazz=%s", text, clazz);
+            log.error(message, e);
+            throw new RuntimeException(message);
+        }
+        return result;
+    }
+
+    public static <K, V> Map<K, V> parseMap(String text) {
+        Map<K, V> result = Collections.emptyMap();
+        try {
+            if (StringUtils.isBlank(text)) {
+                text = "{}";
+            }
+            result = gson.fromJson(text, new TypeToken<Map<K, V>>() {
+            }.getType());
+        } catch (Exception e) {
+            String message = String.format("GsonUtil######parseMap 对象转换 map 异常! text=%s", text);
+            log.error(message, e);
+            throw new RuntimeException(message);
+        }
+        return result;
     }
 }

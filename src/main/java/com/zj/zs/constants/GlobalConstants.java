@@ -58,4 +58,8 @@ public class GlobalConstants {
 
     public static AccessConfigDto accessConfig = new AccessConfigDto();
 
+    public static String BAI_DU_HAS_PUSHED_URL_MAP_DICT_KEY = "zs.baidu.has.pushed.url.map.dict.key";
+
+    public static String BAI_DU_PUSH_CONFIG_DICT_KEY = "zs.baidu.push.config.dict.key";
+
 }
