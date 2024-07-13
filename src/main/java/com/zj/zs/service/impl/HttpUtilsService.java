@@ -167,7 +167,7 @@ public class HttpUtilsService {
         if (Objects.isNull(result)) {
             return;
         }
-        final String subject = "Z 不殊站点的【 %s 站点推送百度报告】- %s ";
+        final String subject = String.format("Z 不殊站点的【 %s 站点推送百度报告】- %s ", domain, DateUtils.getNowTimeByTransverse());
         String text = """
                  推送的文章列表为:
                    %s
@@ -176,7 +176,7 @@ public class HttpUtilsService {
                  当日剩余推送数 %s
                  总计已经推送连接数 %s
                 """;
-        text = String.format(text, domain, DateUtils.getNowTimeByTransverse(), fileContent, result.getSuccess(), curPushSize,
+        text = String.format(text, fileContent, result.getSuccess(), curPushSize,
                 result.getRemain(), totalSize);
         qqSendEmailService.sendEmail(subject, text, GlobalConstants.emailConfigDto.getUserSenderEmail());
     }
