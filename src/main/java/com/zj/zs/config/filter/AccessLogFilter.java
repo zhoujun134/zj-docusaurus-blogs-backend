@@ -1,11 +1,13 @@
 package com.zj.zs.config.filter;
 
 import com.google.common.collect.Maps;
+import com.zj.zs.client.IPQueryClient;
 import com.zj.zs.constants.GlobalConstants;
 import com.zj.zs.converter.AccessConverter;
 import com.zj.zs.dao.DictionaryManager;
 import com.zj.zs.domain.dto.config.AccessConfigDto;
 import com.zj.zs.domain.dto.config.AccessIpConfigDto;
+import com.zj.zs.domain.dto.ip.IPDetailDto;
 import com.zj.zs.domain.dto.monitor.AccessLogDTO;
 import com.zj.zs.service.cache.CacheService;
 import com.zj.zs.service.monitor.AccessLogService;
@@ -144,17 +146,19 @@ public class AccessLogFilter implements Filter {
 
     private void emailMessageNotify(String sourceIp, String requestURI, String method, String paramMap, String userAgent,
                                     String referer) {
+        IPDetailDto ipDetailDto = IPQueryClient.queryIpInfo(sourceIp);
         String subject = "Z 不殊站点的【异常IP访问被拦截通知】";
         String text = """
                 【异常IP访问被拦截通知】
                 来源IP：%s  \n
+                来源地址：%s  \n
                 请求URI：%s \n
                 请求方法：%s \n
                 请求参数：%s \n
                 请求UA：%s \n
                 请求Referer：%s
                 """;
-        text = String.format(text, sourceIp, requestURI, method, JsonUtils.toString(paramMap), userAgent, referer);
+        text = String.format(text, sourceIp, ipDetailDto.getAddress(), requestURI, method, JsonUtils.toString(paramMap), userAgent, referer);
         qqSendEmailService.sendEmail(subject, text, GlobalConstants.emailConfigDto.getUserSenderEmail());
     }
 
