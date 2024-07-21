@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @ServletComponentScan
 @EnableAsync
-@EnableScheduling
+//@EnableScheduling
 public class ZsBootApplication {
 
     public static void main(String[] args) {
