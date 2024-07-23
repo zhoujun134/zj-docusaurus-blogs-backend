@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     username: root
-    password: woshizhoujun456S
+    password: woshiroot123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/zj_blog?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
 
