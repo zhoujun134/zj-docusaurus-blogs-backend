@@ -176,7 +176,7 @@ public class HttpUtilsService {
                  当日剩余推送数 %s
                  总计已经推送连接数 %s
                 """;
-        text = String.format(text, fileContent, result.getSuccess(), curPushSize,
+        text = String.format(text, fileContent, result.getSuccess(), curPushSize - result.getSuccess(),
                 result.getRemain(), totalSize);
         qqSendEmailService.sendEmail(subject, text, GlobalConstants.emailConfigDto.getUserSenderEmail());
     }
